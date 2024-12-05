@@ -1,13 +1,10 @@
 import React from "react";
-import {
-  createdBrowserRouter,
-  RouterProvider,
-  Route,
-  Outlet,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
+import "./index.css";
+import "./styles.scss";
 // import Profile from "./pages/Profile.jsx";
 import Write from "./pages/Write.jsx";
 import Single from "./pages/Single.jsx";
@@ -19,16 +16,20 @@ const LayOut = () => {
     <>
       <Navbar />
       <Outlet />
-      |<Footer />
+      <Footer />
     </>
   );
 };
 
-const router = createdBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <LayOut />,
     children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
       {
         path: "/post/:id",
         element: <Single />,
@@ -36,10 +37,6 @@ const router = createdBrowserRouter([
       {
         path: "/write",
         element: <Write />,
-      },
-      {
-        path: "/",
-        element: <Home />,
       },
     ],
   },
@@ -55,8 +52,10 @@ const router = createdBrowserRouter([
 
 const App = () => {
   return (
-    <div>
-      <RouterProvider router={router} />
+    <div className="app">
+      <div className="container">
+        <RouterProvider router={router} />
+      </div>
     </div>
   );
 };
