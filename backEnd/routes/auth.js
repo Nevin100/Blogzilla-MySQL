@@ -5,7 +5,7 @@ const router = express.Router();
 
 //(importing the controller post function from controllers :)
 router.post("/register", register);
-router.get("/login", login);
+router.post("/login", login);
 router.get("/logout", logout);
 //routes:
 

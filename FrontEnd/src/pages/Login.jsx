@@ -6,7 +6,7 @@ import { useState } from "react";
 const Login = () => {
   const [Inputs, setInputs] = useState({
     username: "",
-    email: "",
+    password: "",
   });
   const [err, setError] = useState(null); //for error management
   const handleChange = (e) => {

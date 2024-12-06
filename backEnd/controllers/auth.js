@@ -1,6 +1,6 @@
 import { db } from "../db.js";
 import bcrypt from "bcryptjs";
-
+import jwt from "jsonwebtoken";
 //Router register:
 export const register = (req, res) => {
   //Check existing user
@@ -29,7 +29,7 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   //Check USER
 
-  const q = "SELECT * FROM users WHERE email = ? OR username = ?";
+  const q = "SELECT * FROM users WHERE username = ? OR password = ?";
   db.query(q, [req.body.username, req.body.password], (err, data) => {
     if (err) return res.json(err);
     if (data.length === 0)
@@ -43,6 +43,17 @@ export const login = (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json("Invalid credentials");
     }
+
+    //JWT
+    const token = jwt.sign({ id: data[0].id }, "jwtkey");
+    //we dont want to send our password in cookie so:
+    const { password, ...other } = data[0];
+
+    //cookie response sending
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(other);
   });
 };
 export const logout = (req, res) => {};
