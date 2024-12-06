@@ -17,10 +17,16 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/register", Inputs);
+      const res = await axios.post(
+        "http://localhost:8800/api/auth/register",
+        Inputs
+      );
       console.log(res);
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Error during registration:",
+        error.response?.data || error.message
+      );
     }
   };
 
