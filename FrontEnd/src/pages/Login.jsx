@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useState } from "react";
+import { AuthContext } from "../context/authcontext.jsx";
 
 const Login = () => {
   const [Inputs, setInputs] = useState({
@@ -14,11 +14,14 @@ const Login = () => {
   };
   const navigate = useNavigate();
 
+  //using context from context
+  const { login } = useContext(AuthContext);
+
   //sending data
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/api/auth/login", Inputs);
+      await login(Inputs);
       navigate("/");
     } catch (err) {
       setError(err.response.data);

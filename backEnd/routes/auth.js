@@ -6,7 +6,7 @@ const router = express.Router();
 //(importing the controller post function from controllers :)
 router.post("/register", register);
 router.post("/login", login);
-router.get("/logout", logout);
+router.post("/logout", logout);
 //routes:
 
 export default router;
