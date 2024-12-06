@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-  const [Inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const [err, setError] = useState(null); //for error management
+  const [err, setError] = useState(null);
+
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const navigate = useNavigate();
 
-  //sending data
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/api/auth/register", Inputs);
+      await axios.post("/auth/register", inputs);
       navigate("/login");
     } catch (err) {
       setError(err.response.data);
@@ -28,35 +30,33 @@ const Register = () => {
   return (
     <div className="auth">
       <h1>Register</h1>
-
       <form>
         <input
           required
-          placeholder="Email"
-          name="email"
           type="text"
-          onChange={handleChange}
-        />
-        <input
-          required
-          placeholder="UserName"
+          placeholder="username"
           name="username"
-          type="text"
           onChange={handleChange}
         />
         <input
           required
-          placeholder="Password"
-          name="password"
-          type="password"
+          type="email"
+          placeholder="email"
+          name="email"
           onChange={handleChange}
         />
-        <span className="">
-          Already have an account?? {"  "}
-          <Link to="/login">Login</Link>
-        </span>
+        <input
+          required
+          type="password"
+          placeholder="password"
+          name="password"
+          onChange={handleChange}
+        />
         <button onClick={handleSubmit}>Register</button>
-        {err && <p style={{ color: "red" }}>{err}</p>}
+        {err && <p>{err}</p>}
+        <span>
+          Do you have an account? <Link to="/login">Login</Link>
+        </span>
       </form>
     </div>
   );
