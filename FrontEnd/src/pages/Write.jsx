@@ -18,7 +18,10 @@ const Write = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await axios.post("/upload", formData);
+      const res = await axios.post(
+        "http://localhost:8800/api/upload",
+        formData
+      );
       return res.data;
     } catch (err) {
       console.log(err);
@@ -31,7 +34,7 @@ const Write = () => {
 
     try {
       state
-        ? await axios.put(`/posts/${state.id}`, {
+        ? await axios.put(`http://localhost:8800/api/posts/${state.id}`, {
             title,
             desc: value,
             cat,

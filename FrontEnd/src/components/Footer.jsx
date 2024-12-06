@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../img/NevinLogo.png";
+import Logo from "../assets/NevinLogo.png";
 
 const Footer = () => {
   return (

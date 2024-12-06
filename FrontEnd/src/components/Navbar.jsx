@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authcontext.jsx";
-import Logo from "../img/logo.png";
+import Logo from "../assets/NevinLogo.png";
 
 const Navbar = () => {
   const { currentUser, logout } = useContext(AuthContext);
@@ -9,9 +9,9 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="container">
-        <div className="logo">
+        <div className="">
           <Link to="/">
-            <img src={Logo} alt="" />
+            <img src={Logo} className="logo" alt="" />
           </Link>
         </div>
         <div className="links">
