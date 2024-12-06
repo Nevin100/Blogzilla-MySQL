@@ -16,7 +16,6 @@ const Login = () => {
 
   //using context from context
   const { login } = useContext(AuthContext);
-
   //sending data
   const handleSubmit = async (e) => {
     e.preventDefault();

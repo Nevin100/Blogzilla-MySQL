@@ -33,7 +33,7 @@ const Navbar = () => {
           <Link className="link" to="/?cat=food">
             <h6>FOOD</h6>
           </Link>
-          <span>{currentUser?.username}</span>
+          <span>{currentUser}</span>
           {currentUser ? (
             <span onClick={logout}>Logout</span>
           ) : (

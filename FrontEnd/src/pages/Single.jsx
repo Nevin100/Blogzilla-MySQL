@@ -14,6 +14,7 @@ const Single = () => {
   const postId = location.pathname.split("/")[2]; //here mujhe post ke aage ka id chahiye isliye uski location nikali search bar se and usko splt krke yahan daala
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
+  console.log(currentUser);
   //useffect and API integration:
   useEffect(() => {
     const fetchData = async () => {
@@ -49,12 +50,12 @@ const Single = () => {
             <span>{post.username}</span>
             <p>Posted {moment(post.Date).fromNow()}</p>
           </div>
-          {currentUser.username === post.username && (
+          {currentUser?.username === post.username && (
             <div className="edit">
-              <Link to={"/write?edit=2"}>
-                <img src={edit1} />
+              <Link to={`/write?edit=2`} state={post}>
+                <img src={edit1} alt="" />
               </Link>
-              <img onClick={handleDelete} src={delete1} />
+              <img onClick={handleDelete} src={delete1} alt="" />
             </div>
           )}
         </div>
