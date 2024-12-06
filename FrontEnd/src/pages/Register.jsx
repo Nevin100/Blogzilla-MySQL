@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
@@ -8,36 +8,29 @@ const Register = () => {
     email: "",
     password: "",
   });
-
+  const [err, setError] = useState(null); //for error management
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  const navigate = useNavigate();
 
   //sending data
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:8800/api/auth/register",
-        Inputs
-      );
-      console.log(res);
-    } catch (error) {
-      console.error(
-        "Error during registration:",
-        error.response?.data || error.message
-      );
+      await axios.post("http://localhost:8800/api/auth/register", Inputs);
+      navigate("/login");
+    } catch (err) {
+      setError(err.response.data);
     }
   };
 
-  console.log(Inputs);
   return (
     <div className="auth">
       <h1>Register</h1>
 
       <form>
         <input
-          className=""
           required
           placeholder="Email"
           name="email"
@@ -45,7 +38,6 @@ const Register = () => {
           onChange={handleChange}
         />
         <input
-          className=""
           required
           placeholder="UserName"
           name="username"
@@ -53,7 +45,6 @@ const Register = () => {
           onChange={handleChange}
         />
         <input
-          className=""
           required
           placeholder="Password"
           name="password"
@@ -65,7 +56,7 @@ const Register = () => {
           <Link to="/login">Login</Link>
         </span>
         <button onClick={handleSubmit}>Register</button>
-        <p>This is an error</p>
+        {err && <p style={{ color: "red" }}>{err}</p>}
       </form>
     </div>
   );
