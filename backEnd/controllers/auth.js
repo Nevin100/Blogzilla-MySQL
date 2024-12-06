@@ -26,5 +26,23 @@ export const register = (req, res) => {
   });
 };
 
-export const login = (req, res) => {};
+export const login = (req, res) => {
+  //Check USER
+
+  const q = "SELECT * FROM users WHERE email = ? OR username = ?";
+  db.query(q, [req.body.username, req.body.password], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length === 0)
+      return res.status(401).json("No User exist with those credentials");
+
+    //Checking for password
+    const isPasswordCorrect = bcrypt.compareSync(
+      req.body.password,
+      data[0].password //array of data so we use 0 and . operator
+    );
+    if (!isPasswordCorrect) {
+      return res.status(400).json("Invalid credentials");
+    }
+  });
+};
 export const logout = (req, res) => {};
