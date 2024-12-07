@@ -51,8 +51,8 @@ export const addPost = (req, res) => {
 };
 
 export const deletePost = (req, res) => {
-  const token = req.cookies.access_token;
-  if (!token) return res.status(401).json("Not authenticated!");
+  const token = req.cookies.access_token; // Extract the token from cookies
+  if (!token) return res.status(401).json("Not authenticated!"); // Token should not be undefined
 
   jwt.verify(token, "jwtkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
@@ -61,8 +61,10 @@ export const deletePost = (req, res) => {
     const q = "DELETE FROM posts WHERE `id` = ? AND `uid` = ?";
 
     db.query(q, [postId, userInfo.id], (err, data) => {
-      if (err) return res.status(403).json("You can delete only your post!");
-
+      if (err) return res.status(500).json(err);
+      if (data.affectedRows === 0) {
+        return res.status(403).json("You can delete only your post!");
+      }
       return res.json("Post has been deleted!");
     });
   });

@@ -1,6 +1,6 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -13,6 +13,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`http://localhost:8800/api/posts${cat}`);
+        console.log(res.data);
         setPosts(res.data);
       } catch (err) {
         console.log(err);
@@ -47,31 +48,28 @@ const Home = () => {
   //   },
   // ];
 
-  const getText = (html) => {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent;
-  };
+  // const getText = (html) => {
+  //   const doc = new DOMParser().parseFromString(html, "text/html");
+  //   return doc.body.textContent;
+  // };
 
   return (
     <div className="home">
       <div className="posts">
-        {posts.map((post) => (
-          <div className="post" key={post.id}>
-            <div className="img">
-              <img src={`../upload/${post.img}`} alt="" />
+        {Array.isArray(posts) &&
+          posts.map((post) => (
+            <div className="post" key={post.id}>
+              <div className="img">
+                <img src={post.img} alt={post.title} />
+              </div>
+              <div className="content">
+                <Link className="link" to={`/post/${post.id}`}>
+                  <h1>{post.title}</h1>
+                </Link>
+                <button>Read More</button>
+              </div>
             </div>
-            <div className="content">
-              <Link
-                className="link"
-                to={`http://localhost:8800/api/post/${post.id}`}
-              >
-                <h1>{post.title}</h1>
-              </Link>
-              <p>{getText(post.desc)}</p>
-              <button>Read More</button>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
